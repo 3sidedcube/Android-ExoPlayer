@@ -15,13 +15,14 @@
  */
 package com.google.android.exoplayer;
 
-import com.google.android.exoplayer.util.Assertions;
-import com.google.android.exoplayer.util.Util;
-
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.media.MediaExtractor;
 import android.net.Uri;
+
+import com.google.android.exoplayer.util.Assertions;
+import com.google.android.exoplayer.util.Util;
 
 import java.io.IOException;
 import java.util.Map;
@@ -65,7 +66,16 @@ public final class FrameworkSampleSource implements SampleSource {
   public boolean prepare() throws IOException {
     if (!prepared) {
       extractor = new MediaExtractor();
-      extractor.setDataSource(context, uri, headers);
+
+      if (uri.getScheme().equals("assets")) {
+        AssetFileDescriptor afd = context.getAssets().openFd("content" + uri.getPath());
+        extractor.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getDeclaredLength());
+      }
+      else
+      {
+        extractor.setDataSource(context, uri, headers);
+      }
+
       trackStates = new int[extractor.getTrackCount()];
       pendingDiscontinuities = new boolean[trackStates.length];
       trackInfos = new TrackInfo[trackStates.length];

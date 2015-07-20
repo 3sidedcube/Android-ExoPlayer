@@ -11,35 +11,25 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-apply plugin: 'android-library'
+apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.1"
+	compileSdkVersion 19
+	buildToolsVersion "19.1"
 
-    defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 19
-    }
+	defaultConfig {
+		minSdkVersion 9
+		targetSdkVersion 19
+	}
 
-    lintOptions {
-        abortOnError false
-    }
+	lintOptions {
+		abortOnError false
+	}
 }
 
 dependencies {
-}
-
-android.libraryVariants.all { variant ->
-    def name = variant.buildType.name
-    if (name.equals(com.android.builder.core.BuilderConstants.DEBUG)) {
-        return; // Skip debug builds.
-    }
-    def task = project.tasks.create "jar${name.capitalize()}", Jar
-    task.dependsOn variant.javaCompile
-    task.from variant.javaCompile.destinationDir
-    artifacts.add('archives', task);
+	compile 'com.android.support:support-annotations:22.2.0'
 }
 
 //apply from: '../gradle/sonatype.gradle'
-//apply from: '../gradle/artifactory.gradle'
+apply from: '../gradle/artifactory.gradle'

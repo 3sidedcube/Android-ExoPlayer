@@ -40,3 +40,6 @@ android.libraryVariants.all { variant ->
     task.from variant.javaCompile.destinationDir
     artifacts.add('archives', task);
 }
+
+//apply from: '../gradle/sonatype.gradle'
+//apply from: '../gradle/artifactory.gradle'

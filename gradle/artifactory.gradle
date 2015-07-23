@@ -79,11 +79,11 @@ afterEvaluate { project ->
 				beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 				setupPomInfo(pom)
 
-				repository(url: 'http://localhost:8081/artifactory/internal') {
+				repository(url: 'http://oss.3sidedcube.com:8081/artifactory/internal') {
 					authentication(userName: ARTIFACTORY_USERNAME, password: ARTIFACTORY_PASSWORD)
 				}
 
-				snapshotRepository(url: 'http://localhost:8081/artifactory/snapshot') {
+				snapshotRepository(url: 'http://oss.3sidedcube.com:8081/artifactory/snapshot') {
 					authentication(userName: ARTIFACTORY_USERNAME, password: ARTIFACTORY_PASSWORD)
 				}
 			}
